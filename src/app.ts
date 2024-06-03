@@ -17,6 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const router = Router();
+
 // assumes that the auths are working and the user is already authorized to use this endpoint
 router.post(
     '/make-debit',
