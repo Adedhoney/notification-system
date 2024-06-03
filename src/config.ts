@@ -9,7 +9,9 @@ const envs = [
     'SMTP_HOST',
     'AUTH_EMAIL',
     'AUTH_EMAIL_PASSWORD',
-    'TERMII_SMS_ENDPOINT',
+    'TWILIO_SID',
+    'TWILIO_AUTH_TOKEN',
+    'TWILIO_PHONE',
 ];
 
 envs.forEach((value, index) => {
@@ -28,9 +30,10 @@ export default {
         EMAIL: process.env.AUTH_EMAIL as string,
         PASSWORD: process.env.AUTH_EMAIL_PASSWORD as string,
     },
-    TERMII: {
-        ENDPOINT: process.env.TERMII_SMS_ENDPOINT as string,
-        KEY: process.env.TERMII_API_KEY,
+    TWILIO: {
+        SID: process.env.TWILIO_SID as string,
+        AUTH_TOKEN: process.env.TWILIO_AUTH_TOKEN as string,
+        PHONE: process.env.TWILIO_PHONE as string,
     },
     RABBIT_MQ_URL: process.env.RABBIT_MQ_URL as string,
 };

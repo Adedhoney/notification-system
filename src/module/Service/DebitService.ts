@@ -43,4 +43,5 @@ export const MakeDebit = async (data: DebitDTO): Promise<void> => {
             date,
         });
     }
+    throw new CustomError('Debit failed due to insufficient balace', 200);
 };

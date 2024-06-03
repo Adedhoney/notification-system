@@ -8,7 +8,7 @@ import express, {
 import cors from 'cors';
 import { ErrorHandler, NotFoundError } from '@module/Error';
 import { MakeDebit } from '@module/Service/DebitService';
-import { consumeMail } from '@module/Queue/NotificationQueue';
+import { consumeMail, consumeSms } from '@module/Queue/NotificationQueue';
 
 const app: Express = express();
 
@@ -21,12 +21,18 @@ const router = Router();
 router.post(
     '/make-debit',
     async (req: Request, res: Response, next: NextFunction) => {
-        MakeDebit(req.body.data);
+        try {
+            await MakeDebit(req.body.data);
+            res.send({ success: true, message: 'Debit successful' });
+        } catch (error) {
+            next(error);
+        }
     },
 );
 
 app.use('/api', router);
 consumeMail();
+consumeSms();
 
 app.use((req: Request, res: Response, next: NextFunction) => {
     next(new NotFoundError());

@@ -1,4 +1,4 @@
-import { email } from '@infrastructure/Notification/Notification';
+import { email, sms } from '@infrastructure/Notification/Notification';
 import { Queue } from '@infrastructure/Queue';
 import { ConsumeMessage } from 'amqplib';
 import config from 'config';
@@ -62,12 +62,25 @@ export const consumeSms = async () => {
             async (msg: ConsumeMessage | null) => {
                 if (msg?.content) {
                     const data = JSON.parse(msg.content.toString()) as smsInfo;
-                    // await this.
+                    const message = getSMS(
+                        data.firstName,
+                        data.date,
+                        data.amount,
+                    );
+                    await sms({ to: data.phone, message });
+                    console.log('Consumed mobile notification');
                 }
             },
             true,
         );
-    } catch (error) {}
+    } catch (error) {
+        console.log('failed');
+    }
+};
+
+const getSMS = (name: string, date: string, amount: number) => {
+    return `Debit Failed!
+    Dear ${name}, your recent debit of ${amount} on ${date} failed due to insufficient balance in your wallet. Please add funds and try again. For assistance, contact StackIvy Support.`;
 };
 
 const getHTML = (name: string, date: string, amount: number) => {

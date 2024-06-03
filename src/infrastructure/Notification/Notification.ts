@@ -1,15 +1,14 @@
 import config from 'config';
 import { Transporter, createTransport } from 'nodemailer';
+import Twilio from 'twilio';
 import axios from 'axios';
 
 export const sms = async (params: SmsParams): Promise<void> => {
-    await axios.post(config.TERMII.ENDPOINT, {
-        api_key: config.TERMII.KEY,
+    const client = Twilio(config.TWILIO.SID, config.TWILIO.AUTH_TOKEN);
+    client.messages.create({
+        from: config.TWILIO.PHONE,
         to: params.to,
-        from: 'StackIvy',
-        sms: params.message,
-        type: 'plain',
-        channel: 'generic',
+        body: params.message,
     });
 };
 export const email = async (params: MailParams): Promise<void> => {
