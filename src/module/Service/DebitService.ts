@@ -34,6 +34,7 @@ export const MakeDebit = async (data: DebitDTO): Promise<void> => {
             firstName: user.firstName,
             amount: data.amount,
             date,
+            trials: 0,
         });
     } else if (data.notificationType === NotificationType.MOBILE) {
         await publishSMS({
@@ -41,6 +42,7 @@ export const MakeDebit = async (data: DebitDTO): Promise<void> => {
             firstName: user.firstName,
             amount: data.amount,
             date,
+            trials: 0,
         });
     }
     throw new CustomError('Debit failed due to insufficient balace', 200);

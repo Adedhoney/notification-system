@@ -10,6 +10,7 @@ interface mailInfo {
     firstName: string;
     amount: number;
     date: string;
+    trials: number;
 }
 
 interface smsInfo {
@@ -17,6 +18,7 @@ interface smsInfo {
     firstName: string;
     amount: number;
     date: string;
+    trials: number;
 }
 
 export const publishMail = async (data: mailInfo) => {
@@ -34,26 +36,37 @@ export const consumeMail = async () => {
             async (msg: ConsumeMessage | null) => {
                 if (msg?.content) {
                     const data = JSON.parse(msg.content.toString()) as mailInfo;
-                    const html = getHTML(
-                        data.firstName,
-                        data.date,
-                        data.amount,
-                    );
-                    const message = `Your Debit of ${data.amount} failed due to insufficient balance in your wallet`;
-                    const subject = 'Failed Debit';
-                    await email({
-                        to: data.email,
-                        message,
-                        subject,
-                        text: '',
-                        html,
-                    });
-                    console.log('Consumed mail notification');
+                    try {
+                        const html = getHTML(
+                            data.firstName,
+                            data.date,
+                            data.amount,
+                        );
+                        const message = `Your Debit of ${data.amount} failed due to insufficient balance in your wallet`;
+                        const subject = 'Failed Debit';
+                        await email({
+                            to: data.email,
+                            message,
+                            subject,
+                            text: '',
+                            html,
+                        });
+                        console.log('Consumed mail notification');
+                    } catch (error) {
+                        console.log('published again');
+                        if (data.trials < 2) {
+                            publishMail({ ...data, trials: data.trials + 1 });
+                            return;
+                        }
+                        throw new Error('Mail send failed');
+                    }
                 }
             },
             true,
         );
-    } catch (error) {}
+    } catch (error) {
+        console.log(error);
+    }
 };
 export const consumeSms = async () => {
     try {
@@ -62,13 +75,21 @@ export const consumeSms = async () => {
             async (msg: ConsumeMessage | null) => {
                 if (msg?.content) {
                     const data = JSON.parse(msg.content.toString()) as smsInfo;
-                    const message = getSMS(
-                        data.firstName,
-                        data.date,
-                        data.amount,
-                    );
-                    await sms({ to: data.phone, message });
-                    console.log('Consumed mobile notification');
+                    try {
+                        const message = getSMS(
+                            data.firstName,
+                            data.date,
+                            data.amount,
+                        );
+                        await sms({ to: data.phone, message });
+                        console.log('Consumed mobile notification');
+                    } catch (error) {
+                        if (data.trials < 2) {
+                            publishSMS({ ...data, trials: data.trials + 1 });
+                            return;
+                        }
+                        throw new Error('SMS send failed');
+                    }
                 }
             },
             true,
