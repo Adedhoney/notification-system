@@ -20,7 +20,7 @@ export const MakeDebit = async (data: DebitDTO): Promise<void> => {
     }
 
     const userWallet = await getUserWallet(data.userId);
-    const date = new Date().toDateString();
+    const date = new Date().toLocaleDateString();
 
     if (data.amount <= userWallet.walletBalance) {
         // makes debit and returns

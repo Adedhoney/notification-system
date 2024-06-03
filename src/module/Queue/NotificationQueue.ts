@@ -101,7 +101,7 @@ export const consumeSms = async () => {
 
 const getSMS = (name: string, date: string, amount: number) => {
     return `Debit Failed!
-    Dear ${name}, your recent debit of ${amount} on ${date} failed due to insufficient balance in your wallet. Please add funds and try again. For assistance, contact StackIvy Support.`;
+    Dear ${name}, your recent debit of ${amount} on ${date} failed due to insufficient balance in your wallet. Please add funds and try again. For assistance, contact StackIvy Support: https://stackivy.africa/.`;
 };
 
 const getHTML = (name: string, date: string, amount: number) => {
@@ -140,11 +140,13 @@ const getHTML = (name: string, date: string, amount: number) => {
             display: inline-block;
             padding: 10px 20px;
             color: #fff;
-            background-color: #0073e6;
+            background-color: #f2f2f2;
             text-align: center;
             border-radius: 5px;
             text-decoration: none;
+            cursor: pointer;
         }
+
         .footer {
             text-align: center;
             padding: 10px;
@@ -160,13 +162,13 @@ const getHTML = (name: string, date: string, amount: number) => {
         </div>
         <div class="content">
             <p>Dear ${name},</p>
-            <p>We regret to inform you that your recent debit transaction on ${date} for the amount of ${amount} has failed due to insufficient balance in your wallet.</p>
+            <p>We regret to inform you that your recent debit transaction on ${date} for the amount of ${amount} Naira has failed due to insufficient balance in your wallet.</p>
             <p>To ensure uninterrupted service, please add sufficient funds to your wallet and attempt the transaction again.</p>
             <p>If you have any questions or need assistance, please do not hesitate to contact our support team.</p>
             <p>Thank you for your understanding.</p>
             <p>Best regards,</p>
             <p>StackIvy</p>
-            <a href="[Support Link]" class="button">Contact Support</a>
+            <a href="https://stackivy.africa/" class="button">Contact Support</a>
         </div>
         <div class="footer">
             <p>&copy; 2024 StackIvy. All rights reserved.</p>
