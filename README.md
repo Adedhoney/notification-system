@@ -9,9 +9,9 @@ The notification can either be email notification or mobile(sms) notification
 
 The system is supposed to be a small part of a much larger system. Hence, it assumes that the other services already work in a certain way. This includes Authentication and Authorization, user management services, wallet services etc.
 
-The getUser and getUSerWallet functions are supposed to be the plug into the larger service. Here, they just return a dummy test data that work to test the notification system (be sure to replace the dummy data with one you can test with).
+The getUser and getUSerWallet functions are supposed to be the plug into the larger service. Here, they just return a dummy test data that work to test the notification system (be sure to replace the dummy data with one you can test with. It is located in src/infrastructure/ExternalService/user.ts).
 
-Twilio is used as the sms service provider and a queueing system is put in place to prevent notification loss.
+Twilio is used as the sms service provider and a queueing system is put in place to prevent notification loss (you will need to set up your own twilio and rabbitmq credentials to run the program).
 
 ## How to get and run:
 

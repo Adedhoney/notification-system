@@ -25,8 +25,8 @@ export const getUser = async (userId: string): Promise<IUser> => {
             userId: '123-sjdfjd9-s6762g3-676536y6w',
             firstName: 'Adedoyin',
             lastname: 'Adeyemi',
-            email: 'doyinadeyemi2000@gmail.com',
-            phone: '+2347054685448',
+            email: 'myemail@gmail.com',
+            phone: '+2347000000000',
         } as IUser;
     } catch (error) {
         throw error;
